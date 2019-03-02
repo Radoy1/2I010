@@ -1,0 +1,14 @@
+#include <stdio.h>
+
+int main(int agrc, char *argv[]){
+  int res, nb, nb2;
+
+  if (argc!=3){
+    fprintf(stderr,"Il ne faut que trois parametres\n");
+  }
+  nb1 = atoi(argv[1]);
+  nb2 = atoi(argv[2]);
+
+  if(
+  return 0;  
+}

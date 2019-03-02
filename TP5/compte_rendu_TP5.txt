@@ -1,0 +1,219 @@
+Compte-rendu TP5
+
+------------------------------------------------------------------
+NOM  : Taoussi
+Prenom : Redouane
+Numero carte d'etudiant : 3521415
+
+NOM : Salhi
+Prenom : Nassim-Djamil
+Numero carte d'etudiant : 3703001
+------------------------------------------------------------------
+
+Terminaison d'un processus (si vous ne l'avez pas deja fait en semaine 4)
+=========================================================================
+
+Question 1
+----------
+Comment arreter le processus ?
+
+Question 2
+----------
+Constatations ?
+
+Question 3
+----------
+Inserez le code source du script boucleinfinie3.sh
+
+Inserez les executions
+
+Question 4
+----------
+Inserez le code source du script boucleinfinie4.sh
+
+Inserez les executions
+
+Signaux (si vous ne l'avez pas deja fait en semaine 4)
+=======================================================
+
+Question 1
+----------
+Inserez le code source du script saisie.sh
+
+Inserez les executions
+
+Question 2
+----------
+Inserez le code source du script saisie1.sh
+
+Inserez les executions
+
+Constatation des commutations
+=============================
+
+Question 1
+----------
+Affichage :
+2877 : 0
+2877 : 1
+2877 : 2
+2877 : 3
+2877 : 4
+
+Question 2
+----------
+Donnez plusieurs affichages. Conclusions ?
+
+[2] 2899
+2900 : 0
+2900 : 1
+2900 : 2
+2900 : 3
+2900 : 4
+2899 : 0
+2899 : 1
+2899 : 2
+2899 : 3
+2899 : 4
+
+[3] 2908
+2909 : 0
+2909 : 1
+2908 : 0
+2909 : 2
+2909 : 3
+2908 : 1
+2909 : 4
+2908 : 2
+2908 : 3
+2908 : 4
+
+[2] 2911
+2911 : 0
+2912 : 0
+2911 : 1
+2912 : 1
+2911 : 2
+2912 : 2
+2911 : 3
+2912 : 3
+2911 : 4
+2912 : 4
+
+On sait que le systeme d'exploitation accorde au processus le processeur
+pendant des intervalles de temps 
+
+Question 3
+----------
+Conclusions ?
+On sait que le systeme d'exploitation accorde au processus le processeur
+pendant des intervalles de temps 
+
+Mise en evidence des incoherences provoquees par les commutations
+=================================================================
+
+Question 1
+----------
+Explications
+On teste en premier lieu si le fichier existe deja, si c'est le cas on cree un
+nouveau fichier et on y ecrit le numero de processus, sinon il affecte a la fin
+du fichier le nouveau numero de processus
+
+Question 2
+----------
+Explications
+cat f1 f2 f3
+premier 3336
+
+premier 3337
+suivant 3336
+
+premier 3337
+suivant 3336
+
+On constate que dans f1 il n'y a q'un seul processus, ce qui nous amene a
+deduire que apres le test dans ./ecriture.sh le processeur est accorde au
+nouveau processus 3337 qui cree trois fichiers f1 f2 et f3. Et losrque le
+processeur est reaccorde au processus 3336, le test etant deja valide, le
+fichier f1 est ecrase
+Question 3
+----------
+Inserez le code source de la nouvelle version du script ecriture.sh
+#! /bin/bash
+# ecriture.sh
+
+if [ $# -lt 1 ]
+then
+  echo "Il faut au moins un parametre"
+  exit 1
+fi
+
+for elem in "$@"
+do
+    
+    if [ ! -e "$elem" ]
+       sleep 5
+  then
+      
+    echo premier $$ > "$elem"
+  else
+    echo suivant $$ >> "$elem"
+  fi
+done
+
+Inserez les executions
+./lancement_ecriture.sh
+cat f1 f2 f3 
+premier 3562
+premier 3562
+premier 3562
+
+Question 4
+----------
+Inserez le code source de la nouvelle version du script ecriture.sh
+
+#! /bin/bash
+# ecriture.sh
+
+echo $$ >> fic_id
+
+if [ $# -lt 1 ]
+then
+    echo "Il faut au moins un parametre"
+    exit 1
+fi
+
+for elem in "$@"
+do
+    while read i 
+    do
+	if [ $i -ne $$ ]
+	then
+	   kill -19 $i 2> /dev/null
+	fi
+    done < fic_id
+    
+    if [ ! -e "$elem" ]
+    then
+	sleep 5
+	echo premier $$ > "$elem"
+    else
+	echo suivant $$ >> "$elem"
+    fi
+    
+    while read i 
+    do
+	if [ $i -ne $$ ]
+	then
+	   kill -18 $i 2> /dev/null
+	fi
+    done < fic_id
+done
+Inserez les executions
+./lancement_ecritures
+
+
+Question 5
+----------
+D伺auts de la solution proposee
+L'execution du code prend plus de 3s pour chaque fichier passe en argument, il est lent.

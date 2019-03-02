@@ -1,0 +1,7 @@
+#include <stdio.h>
+
+int main(int argc, char *argv[]){
+  setenv(argv[1],atoi(argv[2]));
+  char *var = getenv("argv[1]");
+  printf("%s\n",var);
+}

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+entier=0
+
+while [ $entier -lt 

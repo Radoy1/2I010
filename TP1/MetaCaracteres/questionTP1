@@ -1,0 +1,11 @@
+Vous allez devoir identifier un des premiers textes litteraires connus de l'humanite. Il a ete ecrit vers -3000 avant JC, connu par des plaquettes d'argile en akkadien realisees vers -1500 et decouvert au XIXeme siecle a Ninive dans les ruines du temple de Nabou.
+
+Les mots composant le nom de ce texte correspondent a des noms de fichiers se trouvant dans le repertoire ExoShell/TP1/MetaCaracteres. Chacun des fichiers identifie contiendra les informations vous permettant de trouver le fichier suivant. Pour identifier les fichiers, vous devez utiliser la commande ls en utilisant le bon motif. Si vous identifiez plusieurs fichiers ou que vous trouvez un fichier vide c'est que :
+- vous avez ajoute des fichiers a l'arborescence,
+- vous n'avez pas utilise le bon motif.
+
+
+Premier mot : le fichier dont le nom contient le mot pop. 
+
+Lisez le contenu du fichier identifie pour avancer dans vos recherches.
+

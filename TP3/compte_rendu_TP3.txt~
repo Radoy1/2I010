@@ -1,0 +1,233 @@
+Compte-rendu TP3
+
+------------------------------------------------------------------
+NOM  : Taoussi
+Prenom : Redouane
+Numero carte d'etudiant : 3521415
+
+NOM : Salhi
+Prenom : Nassim-Djamil
+Numero carte d'etudiant : 3703001
+------------------------------------------------------------------
+
+
+Passage de parametres et exportation de variables
+=================================================
+
+Question 1
+----------
+Inserez le code source du script pere_para.sh
+#! /bin/bash
+i=1
+while [ $i -le $1 ]
+do
+    ./fils_para.sh $i $1
+    i=$(($i+1))
+done
+
+
+Inserez le code source du script fils_para.sh
+
+#! /bin/bash
+
+echo Je suis le fils $1 sur $2
+
+Inserez les executions
+
+chmod +x pere_para.sh
+chmod +x fils_para.sh
+./pere_para.sh 5
+
+Question 2
+----------
+Inserez le code source du script pere.sh
+#! /bin/bash
+i=1
+j=$1
+export i
+export j
+while [ $i -le $j ]
+do
+    ./fils.sh
+    i=$(($i+1))
+done
+
+Inserez le code source du script fils.sh
+#! /bin/bash
+
+echo Je suis le fils "$i" sur "$j"
+
+Inserez les executions
+
+chmod +x pere.sh
+chmod +x fils.sh
+./pere.sh 5
+Hierarchie de processus shell
+=============================
+
+Question 1
+----------
+A =
+PID =
+
+Question 2
+----------
+A =
+PID =
+PPID =
+
+Question 3
+----------
+A =
+PID =
+
+Question 4
+----------
+Execution :
+
+Question 5
+----------
+Execution :Question 1
+----------
+A =30
+PID =echo ${$} ou echo $$  7982
+
+Question 2
+----------
+A = A n'acune valeur 
+PID = echo $$ ou echo ${$} 8217
+PPID =ps chercher le processuce bash avec un pid autre que 8217 ou ps -eo pid,ppid,comm | grep bash et on prend le pid du bash avec comme pid 8217 le ppid est 7982
+
+Question 3
+----------
+A =30 
+PID =7982
+meme valeur pour A et le PID 
+
+Question 4
+----------
+Execution :
+export A
+bash
+echo $A
+on retrouve la valeur 30 dans le deuxieme bash
+
+Question 5
+----------
+Execution :
+A=66
+exit
+echo $A
+
+Explications :
+
+A a toujours la valeur 30, car export donne une copie de la variable et pas la
+variable elle meme au processus fils. Modifier A dans le fils ne modifie pas
+A dans le parent
+
+
+Question 6
+----------
+Constatations :
+
+Question 7
+----------
+Constatations :
+
+Explications :
+
+Question 8
+----------
+Constatations :
+
+Explications :
+
+Question 9
+----------
+Constatations :
+
+Explications :
+
+Question 10
+----------
+Constatations :
+
+Explicatios :
+
+Question 11
+----------
+Constatations :
+
+Deductions :
+
+
+Redirection des entrees-sorties
+===============================
+
+Question 1
+----------
+Inserez le code source du script ensemble_calculs.sh
+#! /bin/bash
+
+for i in "$@"
+do
+    ./calcul.sh $i
+done
+
+Inserez les exŽcutions
+chmod +x ensemble_calculs.sh
+./ensemble_calculs.sh "1 + 2" "3 - 5" "5 + 0"
+Question 2
+----------
+Inserez le code source du script ensemble_calculs1.sh
+#! /bin/bash
+
+fic=$1
+echo "" > "$1"
+shift 
+for i in "$@"
+do
+    ./calcul.sh $i >> "$fic"
+done
+
+Inserez les executions
+chmod +x ensemble_calculs1.sh
+./ensemble_calculs1.sh fichier "1 + 2" "3 - 5" "5 + 0"
+Inserez le code source du script ensemble_calculs2.sh
+#! /bin/bash
+
+fic=$1
+echo "" > "$1"
+shift 
+for i in "$@"
+do
+    ./calcul.sh $i > "$fic"
+done
+Inserez les executions
+chmod +x ensemble_calculs2.sh
+./ensemble_calculs2.sh fichier "1 + 2" "3 - 5" "5 + 0"
+Question 3
+----------
+Inserez le code des nouveaux scripts
+#! /bin/bash
+
+ficn=$1
+ficp=$2
+echo "" > "$ficn"
+echo "" > "$ficp"
+shift 2
+for i in "$@"
+do
+    var=$(./calcul.sh $i)
+    if [ $var -le 0 ]
+    then
+	echo $var >> $ficn
+    else
+	echo $var >> $ficp
+    fi
+    
+done
+
+Inserez les executions
+chmod +x ensemble_calculs3.sh
+./ensemble_calculs3.sh fichier fichier2 "1 + 2" "3 - 5" "5 + 0" "6 - 505" "6 - 9"

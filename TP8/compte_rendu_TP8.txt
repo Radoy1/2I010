@@ -1,0 +1,336 @@
+Compte-rendu TP8
+
+------------------------------------------------------------------
+NOM  : Taoussi
+Prenom : Redouane
+Numero carte d'etudiant : 3521415
+
+NOM : Salhi
+Prenom : Nassim Djamil
+Numero carte d'etudiant : 3703001
+------------------------------------------------------------------
+
+
+Synchronisations multiples
+==========================
+
+Question 1
+----------
+script saisie.sh
+
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ -d $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi
+
+while read a
+do
+    echo $a >> $1
+    if [ $a -lt 0 ]
+    then
+	exit 1
+    fi
+done
+
+
+
+Question 2
+----------
+script somme.sh
+
+
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ ! -f $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi
+
+i=0
+somme=0
+while read a
+do
+    if [ $a -lt 0 ]
+    then
+	break
+    fi
+    somme=$((somme+a))
+    let i++
+done < "$1"
+
+echo $i $somme > "$1"
+
+Question 3
+----------
+script moy.sh
+
+#!/bin/bash
+
+
+if [ $# -ne 1 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ ! -f $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi
+
+read a b < "$1"
+
+moy=$(($b/$a))
+
+if [ $moy -ge 10 ]
+then
+    echo recu $moy
+else
+    echo recale $moy
+fi
+
+Question 4
+----------
+Explications :
+Il y a une comutation avant la creation du fichier fic, le reste des scripts sont arretes avec une erreur
+Question 5
+----------
+Nouvelle version des scripts
+
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ -d $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi
+
+while read a
+do
+    echo $a >> $1
+    if [ $a -lt 0 ]
+    then
+	touch saisie.sync
+	exit 1
+    fi
+done
+
+
+#!/bin/bash
+
+while [ ! -f saisie.sync ]
+do
+    sleep 1
+done
+
+if [ $# -ne 1 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ ! -f $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi
+
+i=0
+somme=0
+while read a
+do
+    if [ $a -lt 0 ]
+    then
+	break
+    fi
+    somme=$((somme+a))
+    let i++
+done < "$1"
+
+echo $i $somme > "$1"
+
+rm saisie.sync
+touch somme.sync
+
+#!/bin/bash
+
+while [ ! -f somme.sync ]
+do
+    sleep 1
+done
+
+if [ $# -ne 1 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ ! -f $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi
+
+read a b < "$1"
+
+moy=$(($b/$a))
+
+if [ $moy -ge 10 ]
+then
+    echo recu $moy
+else
+    echo recale $moy
+fi
+
+rm somme.sync
+
+
+Question 6
+----------
+Pas de Nouvelle modification
+
+Synchronisations croisees et alternance d'executions
+====================================================
+
+Question 1
+----------
+script ecrivain.sh
+#!/bin/bash
+
+if [ $# -lt 2 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ -d $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi
+
+FICHIER="$1"
+shift
+for a in $@
+do
+	echo $a > "$FICHIER"
+done
+
+
+Question 2
+----------
+script lecteur.sh
+#!/bin/bash
+
+while [ ! -f ecriture.sync ]
+do
+    sleep 1
+done
+
+if [ $# -ne 1 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ ! -f $1 ]
+then
+    echo $1 n\'est pas un fichier2
+    exit 1
+fi
+
+while read a < $1
+do
+	echo mot lu : $a
+done
+
+
+Question 3
+----------
+Constatations
+On constate qu'a cause de la comutation on a des cas ou le fichier n'existe pas
+
+Question 4
+----------
+Nouvelle version des scripts lecteur.sh et ecrivain.sh 
+#!/bin/bash
+
+if [ $# -lt 2 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ -d $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi
+touch lecture.sync
+FICHIER="$1"
+shift
+for a in $@
+do
+    if [ -f lecture.sync ]
+    then
+	echo $a > "$FICHIER"
+	touch ecriture.sync
+	rm lecture.sync
+	sleep 1
+    fi
+done
+
+#!/bin/bash
+
+while [ ! -f ecriture.sync ]
+do
+    sleep 1
+done
+
+if [ $# -ne 1 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ ! -f $1 ]
+then
+    echo $1 n\'est pas un fichier2
+    exit 1
+fi
+
+while read a < $1
+do
+    if [ -f ecriture.sync ]
+    then
+	echo mot lu : $a
+	touch lecture.sync
+	rm ecriture.sync
+    fi
+    sleep 1
+done
+
+

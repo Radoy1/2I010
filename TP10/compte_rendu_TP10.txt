@@ -1,0 +1,259 @@
+Compte-rendu TP10
+
+------------------------------------------------------------------
+NOM  :salhi									
+Prenom :nassim djamil
+Numero carte d'etudiant :3703001
+
+NOM : Taoussi	
+Prenom : Redouane
+Numero carte d'etudiant : 3521415
+------------------------------------------------------------------
+
+* Exercice 1 *
+Question 1
+----------
+Votre code source
+=================
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int main(int argc, int *argv[]){
+
+  if (fork()){
+    sleep(10);
+  }else{
+    if(fork()){
+      sleep(10);
+    }else{
+      if(fork()){
+	sleep(10);
+      }
+      
+    }
+  }
+  return 0;
+}
+
+copier / coller de la sortie de ps -l montrant les processus
+============================================================
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+3521415  11156  0.0  0.0  68216  7732 pts/0    Ss   18:01   0:00 bash
+3521415  11189  0.0  0.2 609036 35792 pts/0    Sl   18:03   0:00  \_ gedit compte_rendu_TP10.txt
+3521415  11436  0.8  0.3 538712 52224 pts/0    Sl   18:12   0:05  \_ emacs prog.c
+3521415  11621  0.0  0.0   4076   696 pts/0    S    18:23   0:00  \_ ./prog
+3521415  11622  0.0  0.0   4076    84 pts/0    S    18:23   0:00  |   \_ ./prog
+3521415  11623  0.0  0.0   4076    88 pts/0    S    18:23   0:00  |       \_ ./prog
+3521415  11624  0.0  0.0      0     0 pts/0    Z    18:23   0:00  |           \_ [prog] <defunct>
+3521415  11626  0.0  0.0  65176  5884 pts/0    R+   18:23   0:00  \_ ps -fu
+
+Question 2
+----------
+Votre code source
+=================
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[]){
+
+  int i,j;
+
+  for(i=0;i<3;i++){
+    
+    if(fork()==0){
+      for(j=0;j<3;j++){
+	if(fork()==0){
+	  sleep(10);
+	  exit(1);
+	}
+      }
+      sleep(10);
+      exit(1);
+    }
+    
+  }
+  sleep(10);
+  return 0;
+}
+    
+
+copier / coller de la sortie de ps -l montrant les processus
+============================================================
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+3521415  11156  0.0  0.0  68216  7736 pts/0    Ss   18:01   0:00 bash
+3521415  11189  0.0  0.2 691404 44992 pts/0    Sl   18:03   0:01  \_ gedit compte_rendu_TP10.txt
+3521415  11678  0.4  0.3 538936 52108 pts/0    Sl   18:27   0:06  \_ emacs prog.c
+3521415  12223  0.0  0.0   4076   668 pts/0    S    18:51   0:00  \_ ./prog2
+3521415  12224  0.0  0.0   4076    84 pts/0    S    18:51   0:00  |   \_ ./prog2
+3521415  12227  0.0  0.0   4076    88 pts/0    S    18:51   0:00  |   |   \_ ./prog2
+3521415  12229  0.0  0.0   4076    88 pts/0    S    18:51   0:00  |   |   \_ ./prog2
+3521415  12232  0.0  0.0   4076    88 pts/0    S    18:51   0:00  |   |   \_ ./prog2
+3521415  12225  0.0  0.0   4076    84 pts/0    S    18:51   0:00  |   \_ ./prog2
+3521415  12228  0.0  0.0   4076    88 pts/0    S    18:51   0:00  |   |   \_ ./prog2
+3521415  12231  0.0  0.0   4076    88 pts/0    S    18:51   0:00  |   |   \_ ./prog2
+3521415  12234  0.0  0.0   4076    88 pts/0    S    18:51   0:00  |   |   \_ ./prog2
+3521415  12226  0.0  0.0   4076    84 pts/0    S    18:51   0:00  |   \_ ./prog2
+3521415  12230  0.0  0.0   4076    88 pts/0    S    18:51   0:00  |       \_ ./prog2
+3521415  12233  0.0  0.0   4076    88 pts/0    S    18:51   0:00  |       \_ ./prog2
+3521415  12235  0.0  0.0   4076    88 pts/0    S    18:51   0:00  |       \_ ./prog2
+3521415  12238  0.0  0.0  65176  5920 pts/0    R+   18:51   0:00  \_ ps -fu
+
+
+
+* Exercice 2 *
+Question 1
+----------
+Votre code source
+=================
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int main (int argc, char *argv[]){
+ 
+  int pid;
+  int i=0;
+  for (i=0;i<3;i++){
+    pid=fork();
+   srand(time(NULL));
+    if(pid==0){
+      sleep(10-(getpid()%10));
+      exit(1);
+    }else {
+      printf("creati0n du fils PID=%d\n",pid);
+    }
+  }
+  for (i=0;i<3;i++){
+  pid=wait(0);
+  printf("mort du fils PID=%d\n",pid);
+}
+
+  return 0;
+}
+
+Affichage produit
+==========
+creati0n du fils PID=12718
+creati0n du fils PID=12719
+creati0n du fils PID=12720
+mort du fils PID=12719
+mort du fils PID=12718
+mort du fils PID=12720
+===========
+
+Question 2
+----------
+Votre code source
+=================
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[]){
+
+  int i,j;
+
+  for(i=0;i<3;i++){
+    
+    if(fork()==0){
+      for(j=0;j<3;j++){
+	if(fork()==0){
+	  sleep(10);
+	  exit(1);
+	}
+      }
+      sleep(10);
+      for (j=0;j<3;j++)
+	wait(NULL);
+      exit(1);
+    }
+
+  }
+  for (j=0;j<3;j++)
+    wait(NULL);
+  sleep(10);
+  return 0;
+}
+    
+
+Affichage produit
+=================
+
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+3521415  11156  0.0  0.0  68216  7736 pts/0    Ss   18:01   0:00 bash
+3521415  11189  0.0  0.2 691832 45284 pts/0    Sl   18:03   0:02  \_ gedit compte_rendu_TP10.txt
+3521415  11678  0.5  0.3 539304 52572 pts/0    Sl   18:27   0:16  \_ emacs prog.c
+3521415  12786  0.0  0.0   4076   660 pts/0    S    19:22   0:00  \_ ./prog2
+3521415  12787  0.0  0.0   4076    80 pts/0    S    19:22   0:00  |   \_ ./prog2
+3521415  12790  0.0  0.0   4076    84 pts/0    S    19:22   0:00  |   |   \_ ./prog2
+3521415  12792  0.0  0.0   4076    84 pts/0    S    19:22   0:00  |   |   \_ ./prog2
+3521415  12795  0.0  0.0   4076    84 pts/0    S    19:22   0:00  |   |   \_ ./prog2
+3521415  12788  0.0  0.0   4076    80 pts/0    S    19:22   0:00  |   \_ ./prog2
+3521415  12791  0.0  0.0   4076    84 pts/0    S    19:22   0:00  |   |   \_ ./prog2
+3521415  12794  0.0  0.0   4076    84 pts/0    S    19:22   0:00  |   |   \_ ./prog2
+3521415  12797  0.0  0.0   4076    84 pts/0    S    19:22   0:00  |   |   \_ ./prog2
+3521415  12789  0.0  0.0   4076    80 pts/0    S    19:22   0:00  |   \_ ./prog2
+3521415  12793  0.0  0.0   4076    84 pts/0    S    19:22   0:00  |       \_ ./prog2
+3521415  12796  0.0  0.0   4076    84 pts/0    S    19:22   0:00  |       \_ ./prog2
+3521415  12798  0.0  0.0   4076    84 pts/0    S    19:22   0:00  |       \_ ./prog2
+3521415  12804  0.0  0.0  65176  6032 pts/0    R+   19:22   0:00  \_ ps -fu
+3521415@ppti-14-508-05:/users/nfs/Etu5/3521415/2I010-2018fev/TP10$ ps -fu
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+3521415  11156  0.0  0.0  68216  7736 pts/0    Ss   18:01   0:00 bash
+3521415  11189  0.0  0.2 691832 45284 pts/0    Sl   18:03   0:02  \_ gedit compte_rendu_TP10.txt
+3521415  11678  0.5  0.3 539304 52572 pts/0    Sl   18:27   0:16  \_ emacs prog.c
+3521415  12786  0.0  0.0   4076   660 pts/0    S    19:22   0:00  \_ ./prog2
+3521415  12805  0.0  0.0  65176  6016 pts/0    R+   19:22   0:00  \_ ps -fu
+
+
+* Exercice 3 *
+Question 1
+----------
+Votre code source des 2 programmes
+==================================
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[]){
+  char a[200];
+  while(scanf("%s",a)!=EOF)
+    printf("%s\n",a);
+  
+  return 0;
+}
+
+#include <stdio.h>
+
+int main(){
+  printf("J\'aime le hummus!!!!!\n");
+  return 0;
+}
+
+
+Exécution
+=========
+./affiche 
+./hummus.c
+
+Question 2
+----------
+
+Exécution
+=========
+/affiche < hummus.c
+
+* Exercice 4 *
+Question 1
+----------
+Votre code source
+=================
+
+
+Question 2
+----------
+Votre code source
+=================
+

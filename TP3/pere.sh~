@@ -1,0 +1,11 @@
+#! /bin/bash
+i=1
+export i
+$j=$1
+export j
+
+while [ $i -le $j ]
+do
+    ./fils_para.sh
+    i=$(($i+1))
+done

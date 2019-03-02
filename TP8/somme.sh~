@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+if [ $# -ne 1]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ !-f $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi

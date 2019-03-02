@@ -1,0 +1,6 @@
+#!/bin/bash
+echo Commande date de l\'utilisateur1
+echo cette commande n\'affiche pas la date
+
+
+

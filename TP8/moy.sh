@@ -1,0 +1,31 @@
+#!/bin/bash
+
+while [ ! -f somme.sync ]
+do
+    sleep 1
+done
+
+if [ $# -ne 1 ]
+then
+    echo Un seul parametre demande
+    exit 1
+fi
+
+if [ ! -f $1 ]
+then
+    echo $1 n\'est pas un fichier
+    exit 1
+fi
+
+read a b < "$1"
+
+moy=$(($b/$a))
+
+if [ $moy -ge 10 ]
+then
+    echo recu $moy
+else
+    echo recale $moy
+fi
+
+rm somme.sync

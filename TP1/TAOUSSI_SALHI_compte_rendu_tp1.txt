@@ -1,0 +1,119 @@
+Compte-rendu TP1
+
+------------------------------------------------------------------
+NOM  : Taoussi
+Prenom : Redouane
+Numero carte d'étudiant : 3521415	
+
+NOM : Salhi
+Prenom : Nassim-Djamil
+Numero carte d'etudiant : 3703001
+------------------------------------------------------------------
+
+Arborescence de fichiers
+===================================
+
+Question 12
+-----------
+Pour chacun des cas suivants, copiez le resultat de l'execution de la commande et collez le dans le compte-rendu.
+Expliquez briévement les caractéristiques des éléments affichés
+
+1) Elements affiches par la commande "ls *"
+tous les elements du repertoire MetaCaracteres car "*" represente n’importe quelle suite de caractères  
+
+2) Elements affiches par la commande "ls ?" 
+tous les elements du repertoire MetaCaracteres car "?" represente n’importe quel caractere exactement un
+
+3) Elements affiches par la commande "ls [a-c]?"
+tous les elements qui commencent par a, b ou c suivi par un seul caractere. 
+
+4) Elements affiches par la commande "ls [ac]?"
+tous les elements qui commencent par a ou c
+
+5) Elements affiches par la commande "ls [a-c]*"
+tous les elements qui commencent par a, b ou c suivi par n'import quelle suite de caracteres. 
+
+6) Elements affiches par la commande "ls *.txt"
+tous les elements qui finissent par .txt
+
+Question 13
+-----------
+Pour chacun des fichiers a identifier donnez
+- la commande permettant de l'identifier,
+- son nom,
+- son contenu.
+Mot1: Epopee ls *pop* hint sur le deuxieme mot
+Mot2: de ls ?[aeiouy] hint sur le troisieme mot
+Mot3: Gilgamesh ls ?[ai]*h
+Mot trouvé "L'epopee de Gilgamesh"
+
+Regroupement de commandes dans un script
+========================================
+
+Questions 1 et 2
+----------------
+Inserez le code source de votre script (i.e., recopiez le contenu du fichier creation.sh)
+mkdir -p RepTest/Rep1/Repa_1 RepTest/Rep1/Repa_2/Repb RepTest/Rep1/Repa_2/Repc RepTest/Rep1/Repa_2/Repd RepTest/Rep2/a RepTest/Rep2/aa RepTest/Rep2/aaa RepTest/Rep2/ab RepTest/Rep2/aba RepTest/Rep2/abc RepTest/Rep2/ac RepTest/Rep2/bac RepTest/Rep2/c
+
+
+Question 3
+----------
+effet de la commande 1 : renomme repb en repe
+
+effet de la commande 2 : deplace repe dans repc
+
+effet de la commande 3 : deplace aussi repd dans repc
+
+Question 4
+----------
+Commandes utilisees : mv RepTest/Rep1/Repa_2 RepTest/Rep2/Rep2_1
+
+Question 5
+----------
+Commandes utilisees et resultats :ls Rep*
+Rep1:
+Repa_1
+
+Rep2:
+a  aa  aaa  ab	aba  abc  ac  bac  c  Rep2_1
+
+
+Constatations : On n'affiche que les repertoires commencant par Rep dans le repertoire RepTest
+
+Question 6
+----------
+Commandes utilisees : cd ~/2I010-2018fev/RepTest/Rep1/Repa_2 RepTest/Rep2
+
+
+Question 7
+----------
+Commandes utilisees : pwd
+
+
+Question 8
+----------
+Commande utilisee et resultats pour 
+
+- nom se terminant par a :ls *a
+
+- nom commencant par b :ls b*
+
+- nom compose de 2 caracteres exactement :ls ??
+
+- nom contenant le caractere a en deuxieme position : ls ?a*
+
+Question 9
+----------
+
+
+Utilisation de la commande man
+==============================
+
+Question 1
+----------
+Option de mkdir :mkdir -pv ~/2I010-2018fev/repEssai/rep1/rep1_1
+
+Question 2
+----------
+Option de ls :ls -t
+

@@ -1,0 +1,177 @@
+Compte-rendu TP7
+
+------------------------------------------------------------------
+NOM  : Taoussi
+Prenom : Redouane
+Numero carte d'etudiant : 3521415
+
+NOM : Salhi
+Prenom : Nassim
+Numero carte d'etudiant : 
+------------------------------------------------------------------
+
+
+Protection de section critique
+=============================
+
+Nouvelle version du script ecriture.sh
+#! /bin/bash
+# ecriture.sh
+
+if [ $# -lt 1 ]
+then
+  echo "Il faut au moins un parametre"
+  exit 1
+fi
+
+for elem in "$@"
+do
+    lockfile "$elem.lock"
+    if [ ! -e "$elem" ]
+    then
+	echo premier $$ > "$elem"
+    else
+	echo suivant $$ >> "$elem"
+    fi
+    rm -f "$elem.lock"
+done
+
+
+Acces concurrents a plusieurs fichiers
+======================================
+
+Question 1
+----------
+Execution et explication
+cas 1 :
+il y a une commutation apres le 3eme bloc if (apres son evaluation) donc le 2eme processus va tester si le meme login est dans le fichier login.txt et va ajouter le login au fichier login.txt et apres on reviens au processus 1 qui va ajouter le meme login 
+
+cas 2 :
+s'il y a une commutation apres au moins une commande echo dans n'importe quel processus 
+Question 2
+----------
+Ressources critiques, sections critiques et justification
+Ressources critiques : login.txt ou pass.txt ou nom.txt
+sections critiques : du 3eme if au dernier echo 
+justification : on modifie les trois fichiers login pass et nom, on n'aura donc besoin que d'unn des trois pour le lockfile. On met les lockfiles avant la 3eme condition d'apres la question 1-1 et apres les trois echo d'apres Q1-2
+
+Question 3
+----------
+Nouvelle version du script creation_utilisateur.sh
+#! /bin/bash
+# script creation_utilisateur.sh
+# Creation d'un nouvel utilisateur avec mise a jour des trois fichiers 
+# concernes.
+# Si la creation du nouvel utilisateur n'est pas possible un message
+# d'erreur est affiche.
+# Necessite trois parametres qui correspondent respectivement au login, 
+# au mot de passe et au nom du nouvel utilisateur.
+
+if [ "$#" -ne 3 ]; then
+  echo "Vous devez saisir trois parametres"
+  exit 1
+fi
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
+  echo "Vous devez saisir un login, un mot de passe et un nom non vide"
+  exit 1
+fi
+
+lockfile -1 login.txt.verrou
+
+if [ -f login.txt ] && [ ! -z "$(grep "^$1$" login.txt)" ]
+then
+  echo "Choisissez un login different de $1"
+  exit 1
+fi
+
+echo "$1" >> login.txt
+echo "$2" >> pass.txt
+echo "$3" >> nom.txt
+
+rm -f login.txt.verrou
+
+
+Question 4
+----------
+Nouvelle version du script creation_utilisateur.sh
+#! /bin/bash
+# script creation_utilisateur.sh
+# Creation d'un nouvel utilisateur avec mise a jour des trois fichiers 
+# concernes.
+# Si la creation du nouvel utilisateur n'est pas possible un message
+# d'erreur est affiche.
+# Necessite trois parametres qui correspondent respectivement au login, 
+# au mot de passe et au nom du nouvel utilisateur.
+
+if [ "$#" -ne 3 ]; then
+  echo "Vous devez saisir trois parametres"
+  exit 1
+fi
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
+  echo "Vous devez saisir un login, un mot de passe et un nom non vide"
+  exit 1
+fi
+
+lockfile -1 login.txt.verrou
+
+if [ -f login.txt ] && [ ! -z "$(grep "^$1$" login.txt)" ]
+then
+  echo "Choisissez un login different de $1"
+  exit 1
+fi
+
+echo "$1" >> login.txt
+
+lockfile -1 pass.txt.verrou
+rm -f login.txt.verrou
+echo "$2" >> pass.txt
+
+lockfile -1 nom.txt.verrou 
+rm -f pass.txt.verrou
+echo "$3" >> nom.txt
+rm -f nom.txt.verrou
+
+
+Probleme de la piscine
+======================
+
+Question 1
+----------
+Instructions de prise d'une cabine :
+#!/bin/bash
+
+read a $1
+while [ ! "$a" -ge 1 ] ;
+do
+    sleep 1
+    read a $1
+done
+echo $(($a - 1 )) > $1
+
+
+Instructions de liberation d'une cabine :
+#!/bin/bash
+
+read a $1
+echo $(($a+1)) > $1
+
+Question 2
+----------
+Script usager.sh
+
+Question 3
+----------
+Problemes mis en evidence ?
+
+Question 4
+----------
+Nouvelle version du script usager.sh
+
+Question 5
+----------
+Explications :
+
+Question 6
+----------
+Explications :
+

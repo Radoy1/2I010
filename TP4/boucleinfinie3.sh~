@@ -1,0 +1,16 @@
+#! /bin/bash
+# boucleinfinie3.sh
+
+echo Je suis le processus $$
+test=0
+trap "echo $$ recoit le signale SIGINT;exit 1" SIGINT
+
+while [ true ]
+do
+    if [ $test -eq 1 ]
+    then
+	exit 1
+    fi
+    
+    sleep 1
+done

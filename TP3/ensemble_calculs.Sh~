@@ -1,0 +1,9 @@
+#! /bin/bash
+set -x
+
+echo "" > $1
+shift 
+for i in "$@"
+do
+    ./calcul.sh $i > $1
+done

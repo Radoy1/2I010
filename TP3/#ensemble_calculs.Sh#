@@ -1,0 +1,19 @@
+#! /bin/bash
+set -x
+
+ficn=$1
+ficp=$2
+echo "" > "$ficn"
+echo "" > "$ficp"
+shift 2
+for i in "$@"
+do
+    var=$(./calcul.sh $i)
+    if [ $var -le 0 ]
+    then
+	echo $var >> $ficn
+    else
+	echo $var >> $ficp
+    fif
+    
+done

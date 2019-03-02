@@ -1,0 +1,107 @@
+Compte-rendu TP2
+
+------------------------------------------------------------------
+NOM  : Taoussi
+Prenom : Redouane 
+Numero carte d'etudiant : 3521415
+
+NOM : salame
+Prenom : sandra
+Numero carte d'etudiant : 3674733
+------------------------------------------------------------------
+
+
+Difference entre guillemets et apostrophes
+==========================================
+
+Question 1
+----------
+Execution et explications :
+./guillemets.sh . ..
+var avec apostrophes = $1 $2
+var avec guillemets = . ..
+var avec guillemets affichee avec apostrophes = $var2
+var avec guillemets et apostrophes = . '..'
+ls avec apostrophes = $(ls)
+ls avec guillemets = compte_rendu_TP2.txt date guillemets.sh TP2.pdf
+
+les guillemets simples affichent le contenue de la variable, et les guillemets doubles remplacent le contenu par les parametres. 
+
+Utilisation de la variable PATH
+===============================
+
+Question 1
+----------
+Constatations :
+Elle affiche la date au moment de l'execution.
+
+Question 2
+----------
+Constatations et explications :
+Elle execute le script contenu dans le repertoire TP2
+date est une fonction dans /bin/date et ./date l'execute dans le repertoire courant.
+
+Premier script
+==============
+
+Question 1
+----------
+Inserez le code du script contenuRepertoires.sh
+#! /bin/bash
+set -u
+if [ $# -eq 0 ]
+then
+  echo Repertoire courant "$(pwd)"
+  exit 1
+fi
+
+for i in $@
+do
+  if [ -d $i ]
+  then
+    echo "$i est un repertoire"
+  elif [ -f $i ]
+  then
+    echo "$i est un fichier"
+  else
+    echo "$i n'est ni un fichier ni un repertoire"
+  fi
+done
+
+Question 2
+----------
+Inserez le code du script contenuRepertoires1.sh
+
+#! /bin/bash
+set -u
+if [ $# -eq 0 ]
+then
+  echo Repertoire courant "$(pwd)"
+  exit 1
+fi
+
+for i in $@
+do
+  if [ -d $i ]
+  then
+    echo $i est un repertoire: $(find $i | wc -l) elements 
+  elif [ -f $i ]
+  then
+    echo "$i est un fichier"
+  else
+    echo "$i n'est ni un fichier ni un repertoire"
+  fi
+done
+
+
+Pour aller plus loin
+=======================================
+
+Question 1
+----------
+Inserez le code du script creationArboFichier.sh
+
+
+Question 2
+----------
+Inserez le code du script creationArboFichier2.sh

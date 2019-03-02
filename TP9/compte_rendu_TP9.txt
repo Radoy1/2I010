@@ -1,0 +1,114 @@
+Compte-rendu TP9
+
+------------------------------------------------------------------
+NOM  :
+Prenom :
+Numero carte d'etudiant :
+
+NOM :
+Prenom :
+Numero carte d'etudiant :
+------------------------------------------------------------------
+
+* Exercice 1 *
+Question 1
+----------
+affiche_para.c
+===============
+
+sortie de ./affiche_para
+========================
+
+
+Question 2
+----------
+add.c
+=====
+
+sortie de ./add
+===============
+
+
+Question 3
+----------
+affiche_env.c
+=============
+
+sortie de ./affiche_env
+=======================
+
+
+Question 4
+----------
+modif_env.c
+===========
+
+sortie de ./modif_env
+=====================
+
+
+* Exercice 2 *
+Question 1
+----------
+source de votre programme
+=========================
+
+Observations
+============
+
+
+Question 2
+----------
+source de votre programme
+=========================
+
+Observations
+============
+
+
+
+* Exercice 3 *
+Question 1
+----------
+source de votre programme
+=========================
+
+
+source de votre script shell
+============================
+
+
+Observations
+============
+
+
+Question 2
+----------
+source de votre programme
+=========================
+
+
+source de votre script shell
+============================
+
+
+Observations
+============
+
+
+
+
+* Exercice 4 *
+Question 1
+----------
+source de votre programme
+=========================
+
+
+Sortie de votre programme
+=========================
+
+Observations
+============
+
+

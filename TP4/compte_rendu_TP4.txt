@@ -1,0 +1,268 @@
+Compte-rendu TP4
+
+------------------------------------------------------------------
+NOM  : Taoussi
+Prenom : Redouane
+Numero carte d'etudiant : 3521415
+
+NOM : Salhi
+Prenom : Nassim
+Numero carte d'etudiant : 3703001
+------------------------------------------------------------------
+
+
+Terminaison d'un processus
+==========================
+
+Question 1
+----------
+Comment arreter le processus ?
+On ouvre un nouveau terminal et on tape: kill -9 (PID)
+
+Question 2
+----------
+Constatations ?
+On constate que SIGKILL n'a pas ete ignore
+Question 3
+----------
+Inserez le code source du script boucleinfinie3.sh
+#! /bin/bash
+# boucleinfinie3.sh
+
+echo Je suis le processus $$
+
+trap "echo $$ recoit le signale SIGINT;exit 1" SIGINT
+
+while [ true ]
+do    
+    sleep 1
+done
+
+Inserez les executions
+chmod +x boucleinfinie3.sh
+./boucleinfinie3.sh
+kill -2 (PID)
+
+Question 4
+----------
+Inserez le code source du script boucleinfinie4.sh
+#! /bin/bash
+# boucleinfinie3.sh
+
+echo Je suis le processus $$
+
+trap "echo $$ recoit le signale SIGINT;exit 1" SIGINT
+trap "echo $$ recoit le signale SIGQUIT;exit 1" SIGQUIT
+trap "echo $$ recoit le signale SIGTERM;exit 1" SIGTERM
+
+
+while [ true ]
+do    
+    sleep 1
+done
+
+Inserez les executions
+chmod +x boucleinfinie4.sh
+./boucleinfinie4.sh
+kill -2 (PID)
+kill -3 (PID)
+kill -15 (PID)
+
+Signaux
+=======
+
+Question 1
+----------
+Inserez le code source du script saisie.sh
+#! /bin/bash
+a=0
+b=0
+c=0
+while [ $a -lt 1 ] || [ $a -gt 31 ]
+do
+    echo Entrez un entier entre 1 et 31
+    read a
+done
+while [ $b -lt 1 ] || [ $b -gt 12 ]
+do
+    echo Entrez un entier entre 1 et 12
+    read b
+done
+while [ $c -lt 1960 ] || [ $c -gt 1980 ]
+do
+    echo Entrez un entier entre 1960 et 1980
+    read c
+done
+
+Inserez les executions
+chmod +x saisie.sh
+./saisie.sh
+
+Question 2
+----------
+Inserez le code source du script saisie1.sh
+#! /bin/bash
+a=0
+b=0
+c=0
+while [ $a -lt 1 ] || [ $a -gt 31 ]
+do
+    echo Entrez un entier entre 1 et 31
+    read a
+done
+
+trap "echo $$ ignore le signale SIGINT" SIGINT
+
+while [ $b -lt 1 ] || [ $b -gt 12 ]
+do
+    echo Entrez un entier entre 1 et 12
+    read b
+done
+
+trap SIGINT
+
+while [ $c -lt 1960 ] || [ $c -gt 1980 ]
+do
+    echo Entrez un entier entre 1960 et 1980
+    read c
+done
+
+Inserez les executions
+chmod +x saisie1.sh
+./saisie1.sh
+
+Valeur de retour d'un processus
+===============================
+
+Question 1
+----------
+Inserez le code source du script petit_fils.sh
+#! /bin/bash
+
+echo Je suis le processus "$1"
+
+
+Inserez les executions
+chmod +x petit_fils.sh
+./petit_fils.sh 7
+Question 2
+----------
+Inserez le code source du script fils.sh
+#! /bin/bash
+
+if [ $# -eq 0 ]
+then
+    exit 1
+fi
+
+m=`./alea.sh`
+i=1
+echo Je suis le fils $1 et je dois creer $m processus
+
+while [ $i -le $m ]
+do
+    ./petit_fils.sh "$1.$i"
+    i=$(($i+1))
+done
+
+Inserez les executions
+chmod +x fils.sh
+./fils.sh 3
+Question 3
+----------
+Inserez le code source du script pere.sh
+#! /bin/bash
+
+if [ $# -eq 0 ]
+then
+    exit 1
+fi
+
+i=1
+
+while [ $i -le $1 ]
+do
+    ./fils.sh "$i"
+    i=$(($i+1))
+done
+
+Inserez les executions
+chmod +x pere.sh
+./pere.sh 3
+Question 4
+----------
+Inserez le code source des nouvelles versions des scripts
+
+#! /bin/bash
+#fils.sh
+if [ $# -eq 0 ]
+then
+    exit 1
+fi
+
+m=`./alea.sh`
+i=1
+echo Je suis le fils $1 et je dois creer $m processus
+
+while [ $i -le $m ]
+do
+    ./petit_fils.sh "$1.$i"
+    i=$(($i+1))
+done
+
+exit $m
+
+#! /bin/bash
+#pere.sh
+if [ $# -eq 0 ]
+then
+    exit 1
+fi
+
+i=1
+s=$1
+while [ $i -le $1 ]
+do
+    ./fils.sh "$i"
+    s=$(($s+$?))
+    i=$(($i+1))
+done
+
+echo $s processus ont ete cree
+
+
+
+
+
+
+Inserez les executions
+chmod +x pere.sh
+./pere.sh 3
+Valeur retournee et/ou valeur affichee ?
+========================================
+
+Question 1
+----------
+Inserez le code source du script test.sh et de la nouvelle version de repertoire.sh
+#! /bin/bash
+# repertoire.sh
+somme=0
+for rep in "$@"; do if [ ! -d "$rep" ]; then
+			somme=$(($somme+1))
+		    fi
+done
+exit $somme
+
+#! /bin/bash
+#test.sh
+./repertoire.sh $@
+rep=$?
+
+if [ $rep -eq 0 ]
+then
+    echo Tous les parametres sont des repertoires
+else
+    echo "$rep  parametres ne correspondent pas a un repertoire"
+fi
+
+

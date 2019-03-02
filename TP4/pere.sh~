@@ -1,0 +1,14 @@
+#! /bin/bash
+
+if [ $# -eq 0 ]
+then
+    exit 1
+fi
+
+i=1
+
+while [ $i -le $1 ]
+do
+    ./fils.sh "$i"
+    i=$(($i+1))
+done

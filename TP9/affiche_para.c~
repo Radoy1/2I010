@@ -1,0 +1,9 @@
+#include <stdio.h>
+
+int main(int argc, char *argv[]){
+  printf("Nom du programme %s avec %d parametres\n",argv[0],argc);
+  if(argc > 1){
+    int i;
+    for(i=0;i<argc;i++)
+      printf("
+}

@@ -1,0 +1,158 @@
+Compte-rendu TP6 (controle de TP)
+
+------------------------------------------------------------------
+NOM  : Taoussi
+Prenom : Redouane
+Numero carte d'etudiant : 3521415
+------------------------------------------------------------------
+
+Exercice 1
+==========
+
+Inserez le source du script saisie.sh
+
+#! /bin/bash
+# saisie.sh
+
+if [ $# -eq 1 ]
+then
+    if [ $1 -lt 7 ]
+    then
+	echo $1
+    else
+	echo Pas de valeur
+    fi
+else
+    
+
+    n=-1
+    while [ "$n" -lt 0 ] || [ "$n" -gt 10 ]
+    do
+	echo "Saisissez une valeur entre 0 et 10"
+	read n
+    done
+
+    if [ "$n" -lt 7 ]
+    then
+	./script.sh
+    else
+	./script.sh
+    fi
+fi
+
+
+Expliquez votre solution
+
+Je teste si l'utilisateur passe une variable en appelant le script, si c'est le cas j'execute ce qui m'a ete demande.
+
+Exercice 2
+==========
+
+Inserez le source des scripts test_saisie.sh et saisie_val.sh
+#! /bin/bash
+# saisie_val.sh
+
+n=-1
+while [ $n -lt 0 ]
+do
+  echo "Saisissez une valeur positive"
+  read n
+done
+
+exit $n
+
+
+#!/bin/bash
+./saisie_val
+val1=$?
+
+./saisie_val
+
+val2=$?
+while [ $val2 -gt $val1 ]
+do
+    ./saisie_val
+    val2=$?
+done
+
+echo $val1 $val2
+
+
+
+Expliquez votre solution
+
+On execute saisie_val qui envoie une valeur de sortie, on le recupere grace a $?. Puis on fait une boucle qui execute et recupere la valeur de retour de saisie_val jusqu'a avoir la bonne valeur.
+
+Exercice 3
+==========
+
+Inserez le source des scripts lecture1.sh et lecture2.sh
+
+LECUTRE1.SH:
+
+#! /bin/bash
+# lecture1.sh
+
+fic="$1"
+export fic
+
+for i in 1 2 
+do
+  read a
+  echo "a1 : $a"
+   ./lecture2.sh
+done 
+
+Lecture2.sh:
+
+#! /bin/bash
+# lecture2.sh
+
+for i in 1 2 
+do
+  read a
+  echo "a2 : $a"
+done < $fic
+read b < $fic
+echo "b  : $b"
+
+
+Justifiez votre solution
+
+Dans lecture1.sh, on ne doit rien ajouter, read va lire de l'entree standard (stdin) du terminal.
+Par contre dans lecture2.sh pour lire sans reouvrir le fichier dans la boucle on doit rediriger la lecture de read vers le fichier fic, et on le met apres le done qui marque la fin de la boucle.
+Pour b on a besoin de lire le debut de fichier, on place < $fic apres le read.
+
+Exercice 4
+==========
+
+Repondez aux questions de votre sujet, inserez le source des scripts demandes
+
+Le numero de SIGALARM est 14
+
+alarm.sh:
+
+#!/bin/bash
+
+PID=$1
+NB=$2
+DELAY=$3
+
+for i in $NB
+do
+    kill -14 $PID
+    sleep $DELAY
+done
+
+script_alarm.sh
+#!/bin/bash
+
+trap "echo Je viens de recevoir sigalarm" SIGALRM
+echo $$
+./alarm.sh $$ 3 1
+
+while true
+do
+    sleep 1
+done
+
